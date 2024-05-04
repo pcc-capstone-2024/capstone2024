@@ -81,8 +81,20 @@ function treeUrl()
 
 function farmUrl()
 {
-  print("Put the url for the FARM stuff here.")
+  print("Put the url for the FARM stuff here.");
   window.location.assign('farm.html');
+}
+
+function buttonUrl()
+{
+  print("Ditto for Button stuff");
+  window.location.assign('button.html');
+}
+
+function swarmUrl()
+{
+  print("URL for swarm stuff");
+  window.location.assign('swarm.html');
 }
 
 function windowResized()
