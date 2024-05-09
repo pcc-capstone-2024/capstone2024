@@ -41,9 +41,11 @@ function setup()
   buttonImg.size(imgWidth*0.2, imgHeight*0.2);
   buttonImg.position(imgWidth*0.8, imgHeight*0.74);
   buttonImg.hide();
+  buttonImg.mouseClicked(buttonUrl);
   swarmImg.size(imgWidth*0.15, imgHeight*0.3);
   swarmImg.position(imgWidth*0.71, imgHeight*0.4);
   swarmImg.hide();
+  swarmImg.mouseClicked(swarmUrl);
 }
 
 function draw() 
