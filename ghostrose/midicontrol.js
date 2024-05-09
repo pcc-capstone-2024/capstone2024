@@ -2,7 +2,7 @@ const CC_CUE = 14;
 const CUE_TIME = 333;
 var CUE_MODE = false; //when true, wait until CC value stops changing to change actual value
 var SKIP_CUE_CCS = [CC_CUE]; //holds CCs we don't want to be affected by Cueing
-var debug = false;
+var debug = true;
 
 class MidiCtrl {
   

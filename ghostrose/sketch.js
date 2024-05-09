@@ -44,6 +44,8 @@ let delta = 3;
 let yMod = 0;
 let lastYTarg = 0;
 
+let rangeThresholds = [10,11,8,6,5,3,9,7,4,2];
+
 function setup(){
   canvas = createCanvas(windowWidth, windowHeight, WEBGL);
 
@@ -117,9 +119,9 @@ function setup(){
   addCtrl(ctrl);
 
   var ctrl = new MidiCtrl(CC_COLOR_RANGE,'Color Range','',range_default);
-  ctrl.min = 8.1;
-  ctrl.max = 2;
-  ctrl.lerpAmt = .9;
+  ctrl.min = 0;
+  ctrl.max = rangeThresholds.length - 1;
+  ctrl.lerp = false;
   addCtrl(ctrl);
 
   var ctrl = new MidiCtrl(CC_Z1,'Z1','',z1_default);
@@ -195,7 +197,7 @@ function draw(){
   sat = ctrl.val;
 
   ctrl = getCtrl(CC_COLOR_RANGE);
-  range = ctrl.val;
+  range = rangeThresholds[floor(ctrl.val)];
 
   ctrl = getCtrl(CC_GLITCH);
   glitch = ctrl.active;
