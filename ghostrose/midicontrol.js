@@ -2,6 +2,7 @@ const CC_CUE = 14;
 const CUE_TIME = 333;
 var CUE_MODE = false; //when true, wait until CC value stops changing to change actual value
 var SKIP_CUE_CCS = [CC_CUE]; //holds CCs we don't want to be affected by Cueing
+var debug = false;
 
 class MidiCtrl {
   
@@ -36,12 +37,13 @@ class MidiCtrl {
     
       onMIDIMessage(data) {
         var msg = new MIDI_Message(data.data);
-      
+        //console.log(msg.note + " " + msg.velocity);
+
         if(msg.note != this.CC){
           return;
         }
         else{
-          //console.log(this.name + " " + msg.velocity);
+          // console.log(this.name + " " + msg.velocity);
         }
     
         this.lastUpdate = millis();
@@ -66,7 +68,9 @@ class MidiCtrl {
         if(this.isBoolean){
           if(msg.velocity > 0){
             this.active = !this.active;
-            console.log(this.name + " " + (this.active ? "On" : "Off"));
+            if(debug){
+              console.log(this.name + " " + (this.active ? "On" : "Off"));
+            }
           }
         }
         else{
@@ -84,7 +88,9 @@ class MidiCtrl {
           this.val = this.target;
         }
 
-        console.log(this.name + " " + this.val);
+        if(debug){
+          console.log(this.name + " " + this.val);
+        }
 
         //update shader var if applicable
         if(this.varName != '' && shader != null){

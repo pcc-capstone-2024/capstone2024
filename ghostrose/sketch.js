@@ -4,8 +4,7 @@ let cols = 600, rows = 30;
 let t_D = 180*15 / cols;
 let r_D =  1 / rows;
 
-let opening, density, align, curve1, curve2,clr1,clr2,sat,range,altColor,z1,x1,lfo;
-let opening_, density_, align_, curve1_, curve2_, x_, y_;
+let opening, density, align, curve1, curve2,clr1,clr2,sat,range,altColor,z1,x1,lfo,glitch;
 let opening_default = 2;
 let density_default = 8;
 let align_default = 3.35;
@@ -33,6 +32,7 @@ const CC_COLOR2 = 62;
 const CC_COLOR_SAT = 63;
 const CC_COLOR_RANGE = 64;
 const CC_COLOR_THRESHOLD = 54;
+const CC_GLITCH = 24;
 
 let canvas;
 
@@ -73,6 +73,7 @@ function setup(){
   z1 = z1_default;
   x1 = x1_default;
   lfo = lfo_default;
+  glitch = false;
 
   //temp MIDI controls
   var ctrl = new MidiCtrl(CC_OPENING,'Opening','',opening_default);
@@ -135,6 +136,10 @@ function setup(){
   ctrl.lerpAmt = .5;
   addCtrl(ctrl);
 
+  var cue = new MidiCtrl(CC_GLITCH,'Glitch Mode','',0);
+  cue.isBoolean = true;
+  addCtrl(cue);
+
   //TODO do this automatically as part of midictrl library
   var cue = new MidiCtrl(CC_CUE,'CUE','',0);
   cue.isBoolean = true;
@@ -166,7 +171,13 @@ function draw(){
   z1 = ctrl.val;
 
   ctrl = getCtrl(CC_LFO);
-  lfo = ctrl.val;
+
+  if(abs(ctrl.val) < .2){
+    lfo = ctrl.val / 5;
+  }
+  else{
+    lfo = ctrl.val;
+  }
 
   ctrl = getCtrl(CC_X1);
   x1 = ctrl.val;
@@ -185,6 +196,9 @@ function draw(){
 
   ctrl = getCtrl(CC_COLOR_RANGE);
   range = ctrl.val;
+
+  ctrl = getCtrl(CC_GLITCH);
+  glitch = ctrl.active;
 
   ctrls.forEach((element) => element.update());
 
@@ -208,10 +222,12 @@ function draw(){
   for(let r = 0; r < v.length; r++){
     let mainColor = color(clr1,sat,-30+r*r_D*120);
     let clr = clr1 + clr2;
-
     altColor = color(clr % 360,sat * 2,-30+r*r_D*120);
-    if(r %  floor(range) == 0){
-      let finalClr = lerpColor(mainColor,altColor,.25);
+
+    if(r %  floor(range) <= 1){
+      let lerpAmt = .25;
+      if(glitch){ lerpAmt += random(-.1,.2);}
+      let finalClr = lerpColor(mainColor,altColor,lerpAmt);
       fill(finalClr);
     }
     else{
