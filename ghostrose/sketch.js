@@ -16,7 +16,7 @@ let curve2_default = 1.3;
 let clr1_default = 340;
 let sat_default = 340;
 let clr2_default = 0;
-let range_default = 2;
+let range_default = 8;
 let threshold_default = 0;
 
 let ctrls = [];
@@ -92,8 +92,8 @@ function setup(){
 
 
   var ctrl = new MidiCtrl(CC_CURVE1,'Curve1','',curve1_default);
-  ctrl.min = -2.5;
-  ctrl.max = 4;
+  ctrl.min = -2.4;
+  ctrl.max = 3.25;
   ctrl.lerpAmt = 1;
   addCtrl(ctrl);
 
