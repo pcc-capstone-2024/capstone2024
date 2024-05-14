@@ -9,8 +9,9 @@ if (!localStorage.getItem('thirdThingData')) {
     Acorns: 0,
     Water: 0,
     Tools: 0,
-    PlotsMade: 0
-  }));
+    PlotsMade: 0,
+    Patches: []
+}));
 }
 
 let savedData = JSON.parse(localStorage.getItem('thirdThingData'));   //load saved data
@@ -125,6 +126,7 @@ function resetScores()
   savedData.Water = water;
   savedData.Tools = tools;
   savedData.PlotsMade = 0;
+  savedData.Patches = [];
   localStorage.setItem('thirdThingData', JSON.stringify(savedData)); //saves data
   background(255);
   image(bgImg, 0, imgWidth/10, imgWidth, imgHeight);
