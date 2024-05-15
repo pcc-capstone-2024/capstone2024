@@ -10,16 +10,19 @@ class Buzz{
         this.inertiaTerm = createVector();
         this.velocity = createVector(random(0, 1), random(0, 1));
         this.maxVelocity = 5.0;
-       // print("Personal: " + this.personalTerm + " Social: " + this.socialTerm + " Inertia: " + this.inertiaTerm);
-    }
-  
-    update(globalBestX, globalBestY, inertia, c1, c2){  //nned to adjust the numbers squares disapear almost instantly.
-        let tempVelocity = createVector(this.velocity);
+        this.globalBestX;
+        this.globalBestY;
+        let tempVelocity = createVector(this.velocity.x, this.velocity.y);
         tempVelocity.mult(inertia);
-        this.globalBest = createVector(globalBestX, globalBestY);
+        this.globalBest = createVector(this.globalBestX, this.globalBestY);
         this.inertiaTerm = tempVelocity;
         this.personalTerm = createVector(random(this.pBest.x, this.x), random(this.pBest.y, this.y));
         this.socialTerm = createVector(random(this.globalBest.x, this.x), random(this.globalBest.y, this.y));
+    //    console.log("Personal: " + this.personalTerm + " Social: " + this.socialTerm + " Inertia: " + this.inertiaTerm);
+    }
+  
+    update(inertia, c1, c2){  //nned to adjust the numbers squares disapear almost instantly.
+
         this.personalTerm.mult(c1); 
         this.socialTerm.mult(c2);
         this.velocity.x = min(this.maxVelocity, max(-this.maxVelocity, this.inertiaTerm.x+this.personalTerm.x+this.socialTerm.x));
