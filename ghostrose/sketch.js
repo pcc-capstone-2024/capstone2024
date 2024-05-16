@@ -4,25 +4,30 @@ let cols = 600, rows = 30;
 let t_D = 180*15 / cols;
 let r_D =  1 / rows;
 
-let opening, density, align, curve1, curve2,clr1,clr2,sat,range,altColor,z1,x1,lfo,glitch;
+let opening, density, align, curve1, curve2,clr1,clr2,sat,range,altColor,z1,x1,lfo1,lfo2,glitch;
 let opening_default = 2;
 let density_default = 8;
 let align_default = 3.35;
 let z1_default = 20;
 let x1_default = 0;
-let lfo_default = 1;
+let lfo1_default = 1;
+let lfo2_default = 1;
 let curve1_default = 2;
 let curve2_default = 1.3;
 let clr1_default = 340;
 let sat_default = 340;
 let clr2_default = 0;
-let range_default = 8;
+let range_default = 7;
 let threshold_default = 0;
+
+//0 = rose 1 , 1 = rose 2, 2 = mix 
+let selected = 0;
 
 let ctrls = [];
 
 const CC_OPENING = 41;
-const CC_LFO = 42;
+const CC_LFO1 = 42;
+const CC_LFO2 = 54;
 const CC_Z1 = 43;
 const CC_X1 = 44;
 const CC_ALIGN = 51;
@@ -53,6 +58,8 @@ function setup(){
   angleMode(DEGREES);
   noStroke();
 
+  noCursor();
+
    // Create a p5.Camera object.
    cam = createCamera();
 
@@ -60,7 +67,7 @@ function setup(){
    cam.setPosition(0, -400, 333);
  
    // Point the camera at the origin.
-   cam.lookAt(0, 0, 0);
+   cam.lookAt(0, -10, 0);
 
 
   opening = opening_default;
@@ -74,7 +81,8 @@ function setup(){
   threshold = threshold_default;
   z1 = z1_default;
   x1 = x1_default;
-  lfo = lfo_default;
+  lfo1 = lfo1_default;
+  lfo2 = lfo2_default;
   glitch = false;
 
   //temp MIDI controls
@@ -132,13 +140,18 @@ function setup(){
   ctrl.min = -50;
   ctrl.max = 50;
   addCtrl(ctrl);
-  var ctrl = new MidiCtrl(CC_LFO,'LFO','',lfo_default);
+  var ctrl = new MidiCtrl(CC_LFO1,'LFO1','',lfo1_default);
   ctrl.min = -5;
   ctrl.max = 5;
-  ctrl.lerpAmt = .5;
+  ctrl.lerp = false;
+  addCtrl(ctrl);
+  var ctrl = new MidiCtrl(CC_LFO2,'LFO2','',lfo2_default);
+  ctrl.min = 33;
+  ctrl.max = 1;
+  ctrl.lerp = false;
   addCtrl(ctrl);
 
-  var cue = new MidiCtrl(CC_GLITCH,'Glitch Mode','',0);
+  var cue = new MidiCtrl(CC_GLITCH,'Glitch Mode','',true);
   cue.isBoolean = true;
   addCtrl(cue);
 
@@ -154,7 +167,7 @@ function draw(){
   background(0);
   
 
-  yMod += delta * lfo;
+  yMod += delta * lfo1;
   yMod = yMod % 360;
 
   rotateY(yMod);
@@ -172,14 +185,17 @@ function draw(){
   ctrl = getCtrl(CC_Z1);
   z1 = ctrl.val;
 
-  ctrl = getCtrl(CC_LFO);
+  ctrl = getCtrl(CC_LFO1);
 
   if(abs(ctrl.val) < .2){
-    lfo = ctrl.val / 5;
+    lfo1 = ctrl.val / 5;
   }
   else{
-    lfo = ctrl.val;
+    lfo1 = ctrl.val;
   }
+
+  ctrl = getCtrl(CC_LFO2);
+  lfo2 = ctrl.val;
 
   ctrl = getCtrl(CC_X1);
   x1 = ctrl.val;
@@ -222,19 +238,28 @@ function draw(){
   }
 
   for(let r = 0; r < v.length; r++){
-    let mainColor = color(clr1,sat,-30+r*r_D*120);
-    let clr = clr1 + clr2;
-    altColor = color(clr % 360,sat * 2,-30+r*r_D*120);
+    let mainColor = color(clr1[selected],sat[selected],-30+r*r_D*120);
+    fill(mainColor);
 
-    if(r %  floor(range) <= 1){
+    let clr = clr1[selected] + clr2[selected];
+    altColor = color(clr[selected] % 360,sat[selected] * 2,-30+r*r_D*120);
+
+
       let lerpAmt = .25;
+
+
+    if(frameCount % floor(lfo2) == 0){
+      if(r %  floor(range[selected]) <= 1){
       if(glitch){ lerpAmt += random(-.1,.2);}
+      }
+    }
+
+    if(r %  floor(range[selected]) <= 1){
       let finalClr = lerpColor(mainColor,altColor,lerpAmt);
       fill(finalClr);
     }
-    else{
-      fill(mainColor);
-    }
+
+
     for(let theta = 0; theta < v[r].length; theta++){
 	     if(r < v.length-1 && theta < v[r].length-1){
          beginShape();
