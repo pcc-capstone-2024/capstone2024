@@ -9,7 +9,7 @@ class Buzz{
         this.socialTerm = createVector(random(this.globalBest.x, this.x), random(this.globalBest.y, this.y));
         this.inertiaTerm = createVector();
         this.velocity = createVector(random(0, 1), random(0, 1));
-        this.maxVelocity = 1;
+        this.maxVelocity = 5.0;
        // print("Personal: " + this.personalTerm + " Social: " + this.socialTerm + " Inertia: " + this.inertiaTerm);
     }
   
@@ -28,10 +28,11 @@ class Buzz{
         this.y += this.velocity.y;
     }   
 
-    drawNew(){
+    makeBuzz(){
         noStroke();
         fill(0, 100, 200);
         rect(this.x, this.y, 20, 20);
+        // console.log("makeBuzz running");
     }
   }
 // difference between   this.globalBest = { x: this.particles[0].x, y: this.particles[0].y };
