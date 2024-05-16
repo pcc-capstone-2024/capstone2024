@@ -42,7 +42,7 @@ function draw() {
 
 function updateParticles(inertia, c1, c2) {
 
-  for(i = 0; i < buzzez; i++){
+  for(let i = 0; i < buzzez; i++){
         buzzez[i].update(buzzez[i].globalBest.x, buzzez[i].globalBest.y, inertia, c1, c2);
         console.log(buzzez[i].globalBest.x, buzzez[i].globalBest.y);
     }
@@ -53,13 +53,13 @@ function updateParticles(inertia, c1, c2) {
 }
 
 function drawParticles(){  
-  for(i = 0; i < buzzezMany; i++){
-      buzzez.drawBuzz();
+  for(let i = 0; i < buzzezMany; i++){
+      buzzez[i].makeBuzz();
     }    
 }
 
 function updateGlobalBest(){
-  for(i = 0; i < buzzezMany; i++){
+  for(let i = 0; i < buzzezMany; i++){
     let currentDistance = dist(buzzez[i].x, buzzez[i].y, objective.x, objective.y);
     let gBestDistance = dist(buzzez[i].globalBest.x, buzzez[i].globalBest.y, objective.x, objective.y);
     if(currentDistance < gBestDistance){
@@ -73,7 +73,7 @@ function updateGlobalBest(){
 
 
 function updateObjective(){
-      for(i = 0; i < buzzezMany; i++) {
+      for(let i = 0; i < buzzezMany; i++) {
         objective.x = mouseX;
         objective.y = mouseY;
         // console.log("objX =", objective.x,"objY =", objective.y);
