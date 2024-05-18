@@ -1,8 +1,8 @@
 let buzzezMany = 25;
 let buzzez = [];
-let inertia;
-let c1;
-let c2;
+let inertia = 0.5;
+let c1 = 0.4;
+let c2 = 0.5;
 
 //we need a generative goal for the particles to head towards. Either one of the edges, the middle, or another square maybe?
 function setup()
@@ -15,11 +15,12 @@ function setup()
     objective = new createVector();
     randX = random(width);
     randY = random(height);
-    buzzez.push( new Buzz(randX, randY));
-    buzzez[i].globalBest = new createVector(buzzez[i].x, buzzez[i].y);
-    // console.log(i);
+    buzzez.push(new Buzz(randX, randY));
+    globalBest = new createVector(buzzez[0].x, buzzez[0].y);
+    // console.log(buzzez[i].x, buzzez[i].y);
     
   }
+  // this.globalBest = createVector(this.globalBestX, this.globalBestY);
   // console.log("x = ", buzzez[24].x + "y = ", buzzez[24].y);
 }
 
@@ -43,8 +44,8 @@ function draw() {
 function updateParticles(inertia, c1, c2) {
 
   for(let i = 0; i < buzzez; i++){
-        buzzez[i].update(buzzez[i].globalBest.x, buzzez[i].globalBest.y, inertia, c1, c2);
-        console.log(buzzez[i].globalBest.x, buzzez[i].globalBest.y);
+        buzzez[i].update(globalBest.x, globalBest.y, inertia, c1, c2);
+        // console.log(globalBest.x, globalBest.y);
     }
 
   updateGlobalBest();
@@ -61,12 +62,12 @@ function drawParticles(){
 function updateGlobalBest(){
   for(let i = 0; i < buzzezMany; i++){
     let currentDistance = dist(buzzez[i].x, buzzez[i].y, objective.x, objective.y);
-    let gBestDistance = dist(buzzez[i].globalBest.x, buzzez[i].globalBest.y, objective.x, objective.y);
+    let gBestDistance = dist(globalBest.x, globalBest.y, objective.x, objective.y);
     if(currentDistance < gBestDistance){
-      buzzez[i].globalBest.x = buzzez[i].x;
-      buzzez[i].globalBest.y = buzzez[i].y;
+      globalBest.x = buzzez[i].x;
+      globalBest.y = buzzez[i].y;
     }
-    // console.log(buzzez[i].globalBest.x, buzzez[i].globalBest.y);
+    // console.log(globalBest.x, globalBest.y);
   }
   // console.log("globalberst");
 }
