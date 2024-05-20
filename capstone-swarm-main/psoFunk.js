@@ -9,12 +9,12 @@ class Buzz{
         // this.y = y;
         this.velocity = createVector(random(0.0, 3.0), random(0.0, 3.0));
         this.maxVelocity = 5.0;
-        inertiaTerm = createVector();
-        personalTerm = createVector();
-        socialTerm = createVector();
+        let inertiaTerm;
+        let personalTerm;
+        let socialTerm;
         // let tempVelocity = createVector(this.velocity.x, this.velocity.y);
         // this.globalBest = createVector(this.globalBestX, this.globalBestY);
-    //    console.log("Personal: " + this.personalTerm + " Social: " + this.socialTerm + " Inertia: " + this.inertiaTerm);
+
     }
   
     update(globalBestX, globalBestY, inertia, c1, c2){  //nned to adjust the numbers squares disapear almost instantly.       
@@ -28,10 +28,8 @@ class Buzz{
         this.velocity.x = min(this.maxVelocity, max(-this.maxVelocity, this.inertiaTerm.x+this.personalTerm.x+this.socialTerm.x));
         this.velocity.y = min(this.maxVelocity, max(-this.maxVelocity, this.inertiaTerm.y+this.personalTerm.y+this.socialTerm.y));
         // this.loc.add(this.velocity);
-        this.loc.x += this.velocity.x;
-        this.loc.y += this.velocity.y;
-    
-
+        this.loc.x += this.velocity.x;   
+        this.loc.y += this.velocity
         //update the canvas here! Repaint with the new pos!
         //Only the vars gets changed, no repainting is happenig in the loop far as I can see...
         // Copy the function that paints the first frame, paste here**** the update is looped in the draw() function. In p5 it does the repainting. I'm actually not sure how to adopt the animaiton function to the draw loop

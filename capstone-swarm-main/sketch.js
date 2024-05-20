@@ -2,7 +2,7 @@ let buzzezMany = 1;
 let buzzez = [];
 let inertia = 0.5;
 let c1 = 1.5;
-let c2 = 1;
+let c2 = 0.9;
 
 //we need a generative goal for the particles to head towards. Either one of the edges, the middle, or another square maybe?
 function setup()
