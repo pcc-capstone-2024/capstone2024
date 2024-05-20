@@ -117,6 +117,6 @@ function animate() {
     setTimeout(() => {
         requestAnimationFrame(animate);
     }, 1000 / 60);
-}
+} 
 
 animate();
