@@ -1,11 +1,11 @@
 class Particle {
-    constructor(x, y) {
+    constructor(x, y, a, b) {
         this.x = x;
         this.y = y;
         this.velocityX = Math.random() * 2 - 1;
         this.velocityY = Math.random() * 2 - 1;
         this.pBestX = x;
-        this.pBestY = y;
+        this.pBestY = y; 
         this.maxVelocity = 5.0;
     }
 

@@ -1,16 +1,17 @@
 class Buzz{   
-    constructor(x, y) {
+    constructor(x, y, a, b) {
         // figure out empty vectors
         // figure out velocity it's really fucky the way you wrote it
-        this.pBest = createVector(x, y);
+        this.pBest = createVector(a, b)
         this.loc = createVector(x, y);
+        
         // this.x = x;
         // this.y = y;
-        this.velocity = createVector(random(0., 1.), random(0., 1.));
+        this.velocity = createVector(random(0.0, 3.0), random(0.0, 3.0));
         this.maxVelocity = 5.0;
-        this.inertiaTerm = createVector();
-        this.personalTerm = createVector();
-        this.socialTerm = createVector();
+        inertiaTerm = createVector();
+        personalTerm = createVector();
+        socialTerm = createVector();
         // let tempVelocity = createVector(this.velocity.x, this.velocity.y);
         // this.globalBest = createVector(this.globalBestX, this.globalBestY);
     //    console.log("Personal: " + this.personalTerm + " Social: " + this.socialTerm + " Inertia: " + this.inertiaTerm);
@@ -26,7 +27,9 @@ class Buzz{
         // this.personalTerm.mult(c1); 
         this.velocity.x = min(this.maxVelocity, max(-this.maxVelocity, this.inertiaTerm.x+this.personalTerm.x+this.socialTerm.x));
         this.velocity.y = min(this.maxVelocity, max(-this.maxVelocity, this.inertiaTerm.y+this.personalTerm.y+this.socialTerm.y));
-     this.loc.add(this.velocity);
+        // this.loc.add(this.velocity);
+        this.loc.x += this.velocity.x;
+        this.loc.y += this.velocity.y;
     
 
         //update the canvas here! Repaint with the new pos!

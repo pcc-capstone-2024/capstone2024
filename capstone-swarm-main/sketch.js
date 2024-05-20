@@ -1,8 +1,8 @@
-let buzzezMany = 25;
+let buzzezMany = 1;
 let buzzez = [];
 let inertia = 0.5;
-let c1 = 0.4;
-let c2 = 0.5;
+let c1 = 1.5;
+let c2 = 1;
 
 //we need a generative goal for the particles to head towards. Either one of the edges, the middle, or another square maybe?
 function setup()
@@ -15,10 +15,12 @@ function setup()
     objective = new createVector();
     randX = random(width);
     randY = random(height);
-    buzzez.push(new Buzz(randX, randY));
-    globalBest = new createVector(buzzez[0].x, buzzez[0].y);
+    for(let i = 0; i < buzzezMany; i++){
+      buzzez[i] = new Buzz(randX, randY, randX - random(3 - 20), randY - random(3 - 20));
+      globalBest = new createVector(buzzez[0].x, buzzez[0].y);
+      
     // console.log(buzzez[i].x, buzzez[i].y);
-    
+    }
   }
   // this.globalBest = createVector(this.globalBestX, this.globalBestY);
   // console.log("x = ", buzzez[24].x + "y = ", buzzez[24].y);
@@ -26,13 +28,13 @@ function setup()
 
 function draw() {
   background(220, 200, 100);
-  // for(let i = 0; i < 10; i++){
+  for(let i = 0; i < 10; i++){
     updateObjective();
-    updateParticles(inertia, c1, c2);
+    updateParticles(globalBest.x, globalBest.y, inertia, c1, c2);
     drawParticles();   
     // console.log("drawliupe");
     // console.log("inertia:", inertia, "c1:", c1, "c2:", c2);    
-  // } 
+  } 
   // mouseX = map(mouseX, 0., 1000, 0., 1.);
   // mouseY = map(mouseY, 0., 1000, 0., 1.);
 
