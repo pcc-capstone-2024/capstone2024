@@ -2,7 +2,6 @@
 Need to modify to save the states of each field and to load those states when refreshed.
 */
 
-
 let savedData = JSON.parse(localStorage.getItem('thirdThingData'));   //load saved data
 
 let patches = [];
@@ -18,13 +17,22 @@ let water = savedData.Water;
 let tools = savedData.Tools;
 
 function setup() {
+  print(savedData.Patches);
   createCanvas(800, 600);
   // Creating patches of dirt
   let spacingX = width / (cols + 1);
   let spacingY = height / (rows + 1);
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
-      patches.push(new Patch((j + 1) * spacingX, (i + 1) * spacingY, spacingX, spacingY));
+  if (patches.length === 0) {
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < cols; j++) {
+        patches.push(new Patch((j + 1) * spacingX, (i + 1) * spacingY, spacingX, spacingY));
+        if (savedData.Patches[i+j]){
+          patches[i+j].planted = savedData.Patches[i+j].planted;
+          patches[i+j].watered = savedData.Patches[i+j].watered;
+          patches[i+j].grown = savedData.Patches[i+j].grown;
+          patches[i+j].curSize = savedData.Patches[i+j].curSize;
+        }
+      }
     }
   }
   // Creating buttons
@@ -114,6 +122,20 @@ function draw() {
 
 function toMain()
 {
+  savedData.Acorns = seed;
+  savedData.Water = water;
+  savedData.Tools = tools;
+  savedData.Score = score;
+  let patchStates = patches.map(patch => {
+  return {
+    planted: patch.planted,
+    watered: patch.watered,
+    grown: patch.grown,
+    curSize: patch.curSize
+  };
+  });
+  savedData.Patches = patchStates;
+  localStorage.setItem('thirdThingData', JSON.stringify(savedData));
   window.location.assign('index.html');
 }
 
@@ -124,13 +146,18 @@ function mouseClicked() {
       currentPatch = patch;
       if (action === "plant" && seed > 0) {
         currentPatch.plantSeed();
-        seed--;
+        if (currentPatch.planted)
+          {seed--;}
       } else if (action === "water" && water > 0) {
         currentPatch.water();
-        water--;
+        if (currentPatch.watered)
+          {water--;}
       } else if (action === "harvest" && tools > 0) {
         currentPatch.harvest();
-        tools--;
+        if (currentPatch.grown)
+        { tools--;
+          score++;
+        }
       }
       return;
     }
