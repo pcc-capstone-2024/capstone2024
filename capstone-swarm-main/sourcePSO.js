@@ -1,5 +1,5 @@
 class Particle {
-    constructor(x, y, a, b) {
+    constructor(x, y) {
         this.x = x;
         this.y = y;
         this.velocityX = Math.random() * 2 - 1;
