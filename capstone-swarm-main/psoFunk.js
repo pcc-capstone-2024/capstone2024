@@ -10,8 +10,8 @@ class Buzz{
         this.personalTerm = createVector();
         this.socialTerm = createVector();
         
-        this.sizeX = random(15, 30);
-        this.sizeY = random(15, 30);
+        this.sizeX = 6;
+        this.sizeY = 6;
         this.red = red;
         this.green = green;
         this.blue = blue;
