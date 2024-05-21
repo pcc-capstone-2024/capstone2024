@@ -57,7 +57,7 @@ class Buzz{
         //update the canvas here! Repaint with the new pos!
         //Only the vars gets changed, no repainting is happenig in the loop far as I can see...
         // Copy the function that paints the first frame, paste here**** the update is looped in the draw() function. In p5 it does the repainting. I'm actually not sure how to adopt the animaiton function to the draw loop
-        
+        console.log('social',socialTerm.x, socialTerm.y, 'personal:', personalTerm.x, personalTerm.y, 'inertiaTerm:', inertiaTerm);
     }   
 
     makeBuzz(){

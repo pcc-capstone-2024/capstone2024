@@ -1,9 +1,9 @@
 let buzzezMany = 5;
 let buzzez = [];
 let inertia = 0.5; //inertia value between 0 and 1 (non inclusive)
-let c1 = 0.1; //c1 and c2 value between 0 and 2
-let c2 = 1.3;
-let r1 = 0.2;
+let c1 = 0.9; //c1 and c2 value between 0 and 2
+let c2 = 0.3;
+let r1 = 0.04;
 let r2 = 0.5;
 let globalBest;
 let buzzRed = [0, 100, 175, 225, 255];
