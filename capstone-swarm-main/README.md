@@ -5,4 +5,6 @@
 # we want them to do both. Halpthanks
 # 2
 # everything unthissed and moving, but being weird. Seems like the globalBest is out of range of the canvas
+#3 
+# follows mouse sorta but still going for the corner of the screen
 
