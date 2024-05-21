@@ -5,7 +5,7 @@ class Buzz{
         this.pBest = createVector(a, b)
         this.loc = createVector(x, y);
         this.velocity = createVector(random(0.0, 2.0), random(0.0, 2.0));
-        this.maxVelocity = 10.0;
+        this.maxVelocity = 2.0;
         this.inertiaTerm = createVector();
         this.personalTerm = createVector();
         this.socialTerm = createVector();
@@ -22,18 +22,22 @@ class Buzz{
     }
   
     update(globalBestX, globalBestY, inertia, c1, c2, r1, r2){  //nned to adjust the numbers squares disapear almost instantly.       
+        var vUp;
+        var inertiaTerm;
+        var socialTerm;
+        var personalTerm;
         globalBest = createVector(globalBestX, globalBestY);
-        this.inertiaTerm = this.velocity.mult(inertia);
-        this.personalTerm = this.pBest.sub(this.loc);
-        this.personalTerm = this.personalTerm.mult(c1);
-        this.personalTerm = this.personalTerm.mult(r1);
-        this.socialTerm = globalBest.sub(this.loc);
-        this.socialTerm = this.socialTerm.mult(c2)
-        this.socialTerm = this.socialTerm.mult(r2);
-        this.vUp = this.socialTerm.add(this.personalTerm); 
-        this.vUp = this.vUp.add(this.inertiaTerm); 
-        this.velocity.x = min(this.maxVelocity, max(-this.maxVelocity, this.inertiaTerm.x+this.personalTerm.x+this.socialTerm.x));
-        this.velocity.y = min(this.maxVelocity, max(-this.maxVelocity, this.inertiaTerm.y+this.personalTerm.y+this.socialTerm.y));
+        inertiaTerm = this.velocity.mult(inertia);
+        personalTerm = this.pBest.sub(this.loc);
+        personalTerm = personalTerm.mult(c1);
+        personalTerm = personalTerm.mult(r1);
+        socialTerm = globalBest.sub(this.loc);
+        socialTerm = socialTerm.mult(c2)
+        socialTerm = socialTerm.mult(r2);
+        vUp = this.socialTerm.add(this.personalTerm); 
+        vUp = this.vUp.add(inertiaTerm); 
+        this.velocity.x = min(this.maxVelocity, max(-this.maxVelocity, this.inertiaTerm.x+this.personalTerm.x + this.socialTerm.x));
+        this.velocity.y = min(this.maxVelocity, max(-this.maxVelocity, this.inertiaTerm.y+this.personalTerm.y + this.socialTerm.y));
         // this.loc.add(this.velocity);
         this.loc.x += this.velocity.x;   
         this.loc.y += this.velocity.y;
