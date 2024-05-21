@@ -4,7 +4,7 @@ class Buzz{
         // figure out velocity it's really fucky the way you wrote it
         this.pBest = createVector(a, b)
         this.loc = createVector(x, y);
-        this.velocity = createVector(random(0.0, 3.0), random(0.0, 3.0));
+        this.velocity = createVector(random(0.0, 2.0), random(0.0, 2.0));
         this.maxVelocity = 10.0;
         this.inertiaTerm = createVector();
         this.personalTerm = createVector();
@@ -29,6 +29,7 @@ class Buzz{
         this.personalTerm = this.personalTerm.mult(r1);
         this.socialTerm = globalBest.sub(this.loc);
         this.socialTerm = this.socialTerm.mult(c2)
+        this.socialTerm = this.socialTerm.mult(r2);
         this.vUp = this.socialTerm.add(this.personalTerm); 
         this.vUp = this.vUp.add(this.inertiaTerm); 
         this.velocity.x = min(this.maxVelocity, max(-this.maxVelocity, this.inertiaTerm.x+this.personalTerm.x+this.socialTerm.x));

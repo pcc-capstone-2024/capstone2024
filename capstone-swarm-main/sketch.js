@@ -1,8 +1,10 @@
-let buzzezMany = 1;
+let buzzezMany = 20;
 let buzzez = [];
 let inertia = 0.95; //inertia value between 0 and 1 (non inclusive)
 let c1 = 0.1; //c1 and c2 value between 0 and 2
 let c2 = 1.3;
+let r1 = 0.2;
+let r2 = 0.4;
 
 let buzzRed = [0, 100, 175, 225, 255];
 let buzzGr = [0, 255, 50, 0, 100];
