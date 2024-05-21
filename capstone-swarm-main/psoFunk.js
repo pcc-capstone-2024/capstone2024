@@ -6,16 +6,16 @@ class Buzz{
         this.loc = createVector(x, y);
         this.velocity = createVector(random(0.0, 2.0), random(0.0, 2.0));
         this.maxVelocity = 2.0;
-        this.inertiaTerm = createVector();
-        this.personalTerm = createVector();
-        this.socialTerm = createVector();
+        // this.inertiaTerm = createVector();
+        // this.personalTerm = createVector();
+        // this.socialTerm = createVector();
         
         this.sizeX = 6;
         this.sizeY = 6;
         this.red = red;
         this.green = green;
         this.blue = blue;
-        this.vUp = createVector();
+        
         // let tempVelocity = createVector(this.velocity.x, this.velocity.y);
         // this.globalBest = createVector(this.globalBestX, this.globalBestY);
 
@@ -34,10 +34,10 @@ class Buzz{
         socialTerm = globalBest.sub(this.loc);
         socialTerm = socialTerm.mult(c2)
         socialTerm = socialTerm.mult(r2);
-        vUp = this.socialTerm.add(this.personalTerm); 
-        vUp = this.vUp.add(inertiaTerm); 
-        this.velocity.x = min(this.maxVelocity, max(-this.maxVelocity, this.inertiaTerm.x+this.personalTerm.x + this.socialTerm.x));
-        this.velocity.y = min(this.maxVelocity, max(-this.maxVelocity, this.inertiaTerm.y+this.personalTerm.y + this.socialTerm.y));
+        vUp = socialTerm.add(personalTerm); 
+        vUp = vUp.add(inertiaTerm); 
+        this.velocity.x = min(this.maxVelocity, max(-this.maxVelocity,  inertiaTerm.x+ personalTerm.x +  socialTerm.x));
+        this.velocity.y = min(this.maxVelocity, max(-this.maxVelocity,  inertiaTerm.y + personalTerm.y  + socialTerm.y));
         // this.loc.add(this.velocity);
         this.loc.x += this.velocity.x;   
         this.loc.y += this.velocity.y;
