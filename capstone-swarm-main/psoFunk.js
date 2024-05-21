@@ -10,8 +10,8 @@ class Buzz{
         // this.personalTerm = createVector();
         // this.socialTerm = createVector();
         
-        this.sizeX = 6;
-        this.sizeY = 6;
+        this.sizeX = 15;
+        this.sizeY = 15;
         this.red = red;
         this.green = green;
         this.blue = blue;
@@ -41,19 +41,19 @@ class Buzz{
         // this.loc.add(this.velocity);
         this.loc.x += this.velocity.x;   
         this.loc.y += this.velocity.y;
-        if (this.loc.x < 0) {
-            this.loc.x = 0;
+        // if (this.loc.x < 0) {
+        //     this.loc.x = 0;
 
-        }
-        if (this.loc.x > width-this.sizeX) {  
-            this.loc.x = width-this.sizeX;
-        }
-        if (this.loc.y > height - this.sizeY) {
-            this.loc.y = height -this.sizeY;
-        }
-        if (this.loc.y < 0) {
-            this.loc.y = 0;
-        }
+        // }
+        // if (this.loc.x > width-this.sizeX) {  
+        //     this.loc.x = width-this.sizeX;
+        // }
+        // if (this.loc.y > height - this.sizeY) {
+        //     this.loc.y = height -this.sizeY;
+        // }
+        // if (this.loc.y < 0) {
+        //     this.loc.y = 0;
+        // }
         //update the canvas here! Repaint with the new pos!
         //Only the vars gets changed, no repainting is happenig in the loop far as I can see...
         // Copy the function that paints the first frame, paste here**** the update is looped in the draw() function. In p5 it does the repainting. I'm actually not sure how to adopt the animaiton function to the draw loop
