@@ -64,7 +64,74 @@ class Buzz{
         noStroke();
         fill(this.red, this.green, this.blue);
         rect(this.loc.x, this.loc.y, this.sizeX, this.sizeY);
-        //console.log('locX', this.loc.x,'locY', this.loc.y);
+        console.log('locX', this.loc.x,'locY', this.loc.y);
                 // console.log("makeBuzz running");
     }
   }
+
+
+  class Swormn{
+    constructor(x, y, a, b, red, green, blue, buzzezMany){
+        this.buzzez = [];
+        this.inertia = 0.5; //inertia value between 0 and 1 (non inclusive)
+        this.c1; //c1 and c2 value between 0 and 2
+        this.c2;
+        this.r1;
+        this.r2;
+        this.globalBest;
+        this.objective;
+        this.globalBest;
+        this.swormnMany;
+        this.buzzezMany = buzzezMany;
+    }
+    setupBuzzez(){
+        for(let i; i < this.buzzezMany; i++){
+            this.objective = new createVector(mouseX, mouseY);         
+            this.buzzez[i] = new Buzz(x, y, a, b, red, green, blue);
+
+        }
+    this.globalBest = new createVector(this.buzzez[0].loc.x, this.buzzez[0].loc.y);
+    console.log(this.buzzez[0].loc.x, this.buzzez[0].loc.x)
+    }
+
+    
+    updateParticles() {
+
+        for(let i = 0; i < this.buzzezMany; i++){
+              this.buzzez[i].update(this.globalBest.x, this.globalBest.y, this.inertia, this.c1, this.c2, this.r1, this.r2);
+              // console.log(globalBest.x, globalBest.y);
+          }
+      
+        updateGlobalBest();
+        // console.log("partieUPdie")
+            // console.log(globalBest.x, globalBest.y);
+      
+      }
+
+      drawParticles(){  
+        for(let i = 0; i < this.buzzezMany; i++){
+            this.buzzez[i].makeBuzz();
+          }    
+      }
+      
+      updateGlobalBest(){
+        this.objective = createVector(mouseX, mouseY);
+        let currentDistance;
+        let gBestDistance;
+        for(let i = 0; i < this.buzzezMany; i++){
+          currentDistance = dist(this.objective.x, this.objective.y, this.buzzez[i].loc.x, this.buzzez[i].loc.y);
+          gBestDistance = dist(this.objective.x, this.objective.y, this.globalBest.x, this.globalBest.y);
+          if(currentDistance < gBestDistance){
+            this.globalBest.x = this.buzzez[i].loc.x;
+            this.globalBest.y = this.buzzez[i].loc.y;
+          }
+      
+        }
+        // console.log("globalberst");
+      }
+  //     updateObjective(){
+  //         this.objective.x = mouseX;
+  //         this.objective.y = mouseY;
+  //         // console.log("objX =", objective.x,"objY =", objective.y);
+  // }
+}
