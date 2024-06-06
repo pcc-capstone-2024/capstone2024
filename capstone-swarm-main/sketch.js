@@ -1,95 +1,50 @@
-let buzzezMany = 5;
-let buzzez = [];
-let inertia = 0.5; //inertia value between 0 and 1 (non inclusive)
-let c1 = 0.9; //c1 and c2 value between 0 and 2
-let c2 = 0.3;
-let r1 = 0.04;
-let r2 = 0.5;
-let globalBest;
-let buzzRed = [0, 100, 175, 225, 255];
-let buzzGr = [0, 255, 50, 0, 100];
-let buzzBl = [255, 0, 255, 125, 0];
-let objective;
+let swarm;
+c2 = 1.3;
+c1 = 0.5;
+r1 = 0.4;
+r2 = 0.2
+inertia = 0.4
+buzzezMany = 20;
 
-//we need a generative goal for the particles to head towards. Either one of the edges, the middle, or another square maybe?
-function setup()
-{
-  let randX;
-  let randY;
-  let randCol;
+
+function setup() {
   createCanvas(1000, 1000);
-  for(let i = 0; i < buzzezMany; i++)
-  {
-    randCol = int(random(5));
-    objective = new createVector();
-    randX = random(0, width);
-    randY = random(0, height);
-    //for(let i = 0; i < buzzezMany; i++){
-      buzzez[i] = new Buzz(randX, randY, randX - random(3 - 20), randY - random(3 - 20), buzzRed[randCol], buzzGr[randCol], buzzBl[randCol]);
-     
-    //  console.log(buzzez[i].loc.x, buzzez[i].loc.y);
-    //}
-  }
-  objective = createVector();
-  globalBest = new createVector(buzzez[0].loc.x, buzzez[0].loc.y);
-  // console.log("x = ", buzzez[24].x + "y = ", buzzez[24].y);
+  swarm = new Swarm(c1, c2, inertia, r1, r2, buzzezMany);
 }
+
 
 function draw() {
   background(220, 200, 100);
-    updateObjective();
-    updateParticles();
-    drawParticles();   
-    // console.log("drawliupe");
-    // console.log("inertia:", inertia, "c1:", c1, "c2:", c2);    
-  // } 
-  // mouseX = map(mouseX, 0., 1000, 0., 500.);
-  // mouseY = map(mouseY, 0., 1000, 0., 500.);
-
-  // c1 = mouseX;
-  // c2 = mouseY;
-  // console.log(c1, c2);
+  
+  swarm.updateObjective();
+  swarm.updateParticles();
+  swarm.drawParticles();
 }
 
-function updateParticles() {
+// function updateParticles() {
+//   for (let i = 0; i < buzzezMany; i++) {
+//       buzzez[i].update(globalBest, inertia, c1, c2, r1, r2);
+//   }
+//   updateGlobalBest();
+// }
 
-  for(let i = 0; i < buzzezMany; i++){
-        buzzez[i].update(globalBest.x, globalBest.y, inertia, c1, c2, r1, r2);
-        // console.log(globalBest.x, globalBest.y);
-    }
+// function drawParticles() {
+//   for (let i = 0; i < buzzezMany; i++) {
+//       buzzez[i].makeBuzz();
+//   }
+// }
 
-  updateGlobalBest();
-  // console.log("partieUPdie")
-      console.log(globalBest.x, globalBest.y);
+// function updateGlobalBest() {
+//   let objective = createVector(mouseX, mouseY);
+//   for (let i = 0; i < buzzezMany; i++) {
+//       let currentDistance = dist(buzzez[i].loc.x, buzzez[i].loc.y, objective.x, objective.y);
+//       let gBestDistance = dist(globalBest.x, globalBest.y, objective.x, objective.y);
+//       if (currentDistance < gBestDistance) {
+//           globalBest = createVector(buzzez[i].loc.x, buzzez[i].loc.y);
+//       }
+//   }
+// }
 
-}
-
-function drawParticles(){  
-  for(let i = 0; i < buzzezMany; i++){
-      buzzez[i].makeBuzz();
-    }    
-}
-
-function updateGlobalBest(){
-  let currentDistance;
-  let gBestDistance;
-  for(let i = 0; i < buzzezMany; i++){
-    currentDistance = dist(buzzez[i].loc.x, buzzez[i].loc.y, objective.x, objective.y);
-    gBestDistance = dist(globalBest.x, globalBest.y, objective.x, objective.y);
-    if(currentDistance < gBestDistance){
-      globalBest.x = buzzez[i].loc.x;
-      globalBest.y = buzzez[i].loc.y;
-    }
-
-  }
-  // console.log("globalberst");
-}
-
-
-function updateObjective(){
-      // for(let i = 0; i < buzzezMany; i++) {
-        objective.x = mouseX;
-        objective.y = mouseY;
-        // console.log("objX =", objective.x,"objY =", objective.y);
-      // }   
-}
+// function updateObjective() {
+//   // Here you can define any specific behavior for the objective if needed
+// }
