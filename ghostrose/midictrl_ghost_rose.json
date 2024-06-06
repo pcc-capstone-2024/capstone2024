@@ -9,19 +9,19 @@
             "name" : "Glitch",
             "CC" : 24,
             "isBoolean" : true,
-            "defaultValue" : true
+            "defaultVal" : true
         },
         {
             "name" : "Toggle Rose",
             "CC" : 70,
             "isBoolean" : true,
-            "defaultValue" : false
+            "defaultVal" : false
         },
         {
             "name" : "Smear",
             "CC" : 106,
             "isBoolean" : true,
-            "defaultValue" : false
+            "defaultVal" : false
         },
         {
             "name" : "LFO1",

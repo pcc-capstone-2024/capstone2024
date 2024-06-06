@@ -16,7 +16,7 @@ var clr2 = [0,0,0];
 var sat = [0,0,0];
 var range = [0,0,0];
 
- let glitch = true;
+let glitch = true;
 
 let myShader;
 
@@ -27,6 +27,9 @@ let yMod = 0;
 let lastYTarg = 0;
 
 let rangeThresholds = [10,11,8,6,5,3,9,7,4,2];
+
+let lastLerp = 0;
+let lerpTarg = 1;
 
 
 function preload(){
@@ -65,7 +68,7 @@ function setup(){
    cam = createCamera();
 
    // Place the camera at the top-center.
-   cam.setPosition(0, -500, 333);
+   cam.setPosition(0, -666, 333);
  
    // Point the camera at the origin.
    cam.lookAt(0, -10, 0);
@@ -75,13 +78,11 @@ function setup(){
 
 function draw(){
 
-
   for (let [key, value] of Object.entries(ctrls)) {
     getCtrl(key).update();
-}
+  }
 
   var smear = getCtrl("Smear");
-
 
   if(!smear.active){
     background(0);
@@ -96,12 +97,10 @@ function draw(){
 
   rotateZ(getCtrl("Z1").val);
 
-
   var ctrl = getCtrl("LFO1");
   if(abs(ctrl.val) < .2){
     ctrl.val = ctrl.val / 5;
   }
-
 
   ctrl = getCtrl("Color1");
   if(millis() - ctrl.lastUpdate < 100){
@@ -118,17 +117,26 @@ function draw(){
     sat[selected] = ctrl.val;
   }
 
-  //TODO change to LFO not random
-  clr1[2] = lerp(clr1[0],clr1[1],random(.3,.7));
-  clr2[2] = lerp(clr2[0],clr2[1],random(.3,.7));
-  sat[2] = lerp(sat[0],sat[1],random(.3,.7));
+  //Lerp values between two roses
+
+  let lerpAmt = lerp(lastLerp, lerpTarg, .2);
+  lastLerp = lerpAmt;
+  if(abs(lerpAmt - lerpTarg) < .01){
+     lerpTarg = lerpTarg == 0 ? 1 : 0;
+  }
+
+  clr1[2] = lerp(clr1[0],clr1[1],lerpAmt);
+  clr2[2] = lerp(clr2[0],clr2[1],lerpAmt);
+  sat[2] = lerp(sat[0],sat[1],lerpAmt);
 
   ctrl = getCtrl("Range");
   if(millis() - ctrl.lastUpdate < 100){
     range[selected] = rangeThresholds[floor(ctrl.val)];
   }
 
-  range[2] = lerp(range[0],range[1],random(.3,.7));
+  range[2] = lerp(range[0],range[1],lerpAmt);
+
+  console.log(lerpAmt);
 
   ctrl = getCtrl("Glitch");
   glitch = ctrl.active;
@@ -166,10 +174,10 @@ function draw(){
     fill(mainColor);
 
     let clr = clr1[mode] + clr2[mode];
-    altColor = color(clr % 360,sat[mode] * 2,-30+r*r_D*120);
+    altColor = color(clr % 360,sat[mode] * 5,-30+r*r_D*120);
 
 
-      let lerpAmt = .33;
+    let lerpAmt = .33;
 
 
     if(frameCount % floor(getCtrl("LFO2").val) == 0){

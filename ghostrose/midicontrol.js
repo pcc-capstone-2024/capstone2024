@@ -114,8 +114,11 @@ function getCtrl(name){
 function addCtrl(ctrl){
   ctrl.val = ctrl.defaultVal;
   ctrl.lastVal = ctrl.defaultVal;
+  ctrl.active = (ctrl.defaultVal);
   ctrl.target = ctrl.defaultVal;
   ctrls[ctrl.name] = ctrl;
+
+  console.log(ctrls[ctrl.name]);
 }
 
   // a custom 'sleep' or wait' function, that returns a Promise that resolves only after a timeout
