@@ -16,7 +16,7 @@ function setup() {
 function draw() {
   background(220, 200, 100);
   
-  swarm.updateObjective();
+  //swarm.updateObjective();
   swarm.updateParticles();
   swarm.drawParticles();
 }
