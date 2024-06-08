@@ -48,6 +48,8 @@ class Swarm{
         this.r2 = r2;
         this.inertia = inertia;
         this.currentDistance;
+        this.headX = 0;
+        this.headY = 0;
 
         for(let i = 0; i < this.buzzezMany; i++){
             let randCol = int(random(5));
@@ -63,9 +65,9 @@ class Swarm{
 
     updateParticles() {
         for (let i = 0; i < this.buzzezMany; i++) {
-        this.buzzez[i].update(this.globalBest, this.inertia, this.c1, this.c2, this.r1, this.r2);
-    }
-    this.updateGlobalBest();
+            this.buzzez[i].update(this.globalBest, this.inertia, this.c1, this.c2, this.r1, this.r2);
+        }
+        this.updateGlobalBest();
     }
 
     drawParticles() {
@@ -75,10 +77,10 @@ class Swarm{
     }
 
     updateGlobalBest() {
-        let objective = createVector(mouseX, mouseY);
+        let objective = createVector(this.headX, this.headY);
         for (let i = 0; i < this.buzzezMany; i++) {
-            this.currentDistance = dist(this.buzzez[i].loc.x, this.buzzez[i].loc.y, mouseX, mouseY);
-            this.gBestDistance = dist(this.globalBest.x, this.globalBest.y, mouseX, mouseY);
+            this.currentDistance = dist(this.buzzez[i].loc.x, this.buzzez[i].loc.y, this.headX, this.headY);
+            this.gBestDistance = dist(this.globalBest.x, this.globalBest.y, this.headX, this.headY);
             if (this.currentDistance < this.gBestDistance) {
                 this.globalBest = createVector(this.buzzez[i].loc.x, this.buzzez[i].loc.y);
             }
