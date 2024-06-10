@@ -16,21 +16,13 @@ var hueValue = light;
 var lerpAmt = 0.3;
 var state = 'ascending';
 
-//let headX;
-//let headY;
-//to connect to kinect not on same pac
-/*let kinectron = new Kinectron("myusername", {  // enter the username to connect to
-  "host": "myserver.com", // your personal peer server
-  "port": "9001", // your portnumber
-  "path": "/", // your path
-  "secure": "true" // include parameters per peer.js documentation
-});*/
 function setup() {
-  createCanvas(1000, 1000);
-  kinectron = new Kinectron("192.168.1.16");
-  kinectron.makeConnection();
-  kinectron.startTrackedJoint(kinectron.HEAD, getHeadLoc)
-  //kinectron.startTrackedBodies(bodyTracked);
+  createCanvas(1000, 1000);                   //IMPORTANT INFO BELOW
+  kinectron = new Kinectron("192.168.1.18");  //change the quotes befoe running the program to the new IP!
+  kinectron.makeConnection();                 //connects to the kinect at specified IP address. (must be running Kinectitron software)
+  kinectron.startTrackedJoint(kinectron.HEAD, getHeadLoc) 
+  //we are only tracking the head and each time one is found the getHeadLoc function runs
+
   //swarm = new Swarm(c1, c2, inertia, r1, r2, buzzezMany);
   swarm = {};
 }
@@ -39,27 +31,30 @@ function draw() {
   background(220, 200, 100);
   //swarm.updateObjective();
   for (let key in swarm) {
-    swarm[key].updateParticles();
-    swarm[key].drawParticles();
-    fill(155, 50, 255);
-    ellipse(swarm[key].headX, swarm[key].headY, 20, 20);
+    if (millis() - swarm[key].timeStamp > 1000) { //if it hasn't been updated for 1 second
+      delete swarm[key];  //delete the object
+    }
+    else {
+      //console.log(swarm[key].timeStamp);    //used in debugging to display timestamp
+      swarm[key].updateParticles();
+      swarm[key].drawParticles();
+      //re-enable the next two lines to view where the kinect is tracking.
+      //fill(155, 50, 255);
+      //ellipse(swarm[key].headX, swarm[key].headY, 20, 20);
+    }
   }
 }
 
-function getHeadLoc(head)
+function getHeadLoc(head)   //this will tell the program what to do when it detects a head.
 {
-  if (head.trackingId in swarm) {
-    swarm[head.trackingId].headX = (head.depthX * width);
-    swarm[head.trackingId].headY = (head.depthY * height);
+  if (!(head.trackingId in swarm)) {   //if the assigned ID is NOT linked to the swarm already
+    swarm[head.trackingId] = new Swarm(c1, c2, inertia, r1, r2, buzzezMany); //create a new swarm with that ID number
   }
-  else {
-    // Create a new swarm if a new head is detected.
-    swarm[head.trackingId] = new Swarm(c1, c2, inertia, r1, r2, buzzezMany);
-    swarm[head.trackingId].headX = (head.depthX * width);
-    swarm[head.trackingId].headY = (head.depthY * height);
-  }
+  //update the headX and headY aka the locations the swarm is tracking
+  swarm[head.trackingId].headX = (head.depthX * width);
+  swarm[head.trackingId].headY = (head.depthY * height);
+  swarm[head.trackingId].timeStamp = millis();  //used to know if the head hasn't been tracked recently in Draw
 }
-
 /*
 function bodyTracked(body) {
   kinectron.getJoints(drawJoint);

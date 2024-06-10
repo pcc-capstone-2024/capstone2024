@@ -50,6 +50,7 @@ class Swarm{
         this.currentDistance;
         this.headX = 0;
         this.headY = 0;
+        this.timeStamp = 0;
 
         for(let i = 0; i < this.buzzezMany; i++){
             let randCol = int(random(5));
